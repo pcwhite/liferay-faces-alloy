@@ -16,7 +16,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlTextInput;
 
 public class AlloyInputText {
 
-    private String inputTextUrl = "http://localhost:8080/alloy-showcase-webapp-3.0.0-SNAPSHOT/web/guest/showcase/-/component/alloy/inputtext";
+    private String inputTextUrl = "http://localhost:8080/web/guest/showcase1/-/component/alloy/inputtext";
     private String url;
 
     private WebClient webClient;
