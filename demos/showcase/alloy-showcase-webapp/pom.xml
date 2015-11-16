@@ -6,7 +6,7 @@
 		<groupId>com.liferay.faces.alloy.demos</groupId>
 		<artifactId>liferay-faces-alloy-showcase-demos</artifactId>
 		<version>3.0.0-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
+		<relativePath>../pom.xml</relativePath>
 	</parent>
 	<artifactId>alloy-showcase-webapp</artifactId>
 	<packaging>war</packaging>
@@ -22,6 +22,193 @@
 					<artifactId>prettyfaces-jsf2</artifactId>
 				</dependency>
 			</dependencies>
+		</profile>
+		<profile>
+			<id>integration</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>com.googlecode.maven-download-plugin</groupId>
+						<artifactId>download-maven-plugin</artifactId>
+						<version>1.2.1</version>
+						<executions>
+							<execution>
+								<id>download-phantomjs</id>
+								<phase>process-test-resources</phase>
+								<goals>
+									<goal>wget</goal>
+								</goals>
+								<configuration>
+									<url>https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-1.9.8-macosx.zip</url>
+									<unpack>true</unpack>
+									<outputDirectory>${project.build.directory}/test</outputDirectory>
+									<md5>fb850d56c033dd6e1142953904f62614</md5>
+								</configuration>
+							</execution>
+							<execution>
+								<id>download-casperjs</id>
+								<phase>process-test-resources</phase>
+								<goals>
+									<goal>wget</goal>
+								</goals>
+								<configuration>
+									<url>https://github.com/n1k0/casperjs/zipball/1.1-beta3</url>
+									<unpack>true</unpack>
+									<outputFileName>n1k0-casperjs-4f105a9.zip</outputFileName>
+									<outputDirectory>${project.build.directory}/test</outputDirectory>
+									<md5>a9c650291afee5a04adaaf729a50d60e</md5>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+					<!--
+						Note: We are not using casperjs-runner-maven-plugin becuase it is only designed to work when
+						phantomjs is on the PATH. Since we are downloading phantomjs, we need to specify it using the
+						PHANTOMJS_EXECUTABLE environment variable. casperjs-runner-maven-plugin actually has an option
+						to set environment variables, but it does not respect them when it initially calls
+						`casperjs - -version` so it fails.
+					-->
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>exec-maven-plugin</artifactId>
+						<version>1.4.0</version>
+						<executions>
+							<execution>
+								<phase>test</phase>
+								<goals>
+									<goal>exec</goal>
+								</goals>
+								<configuration>
+									<executable>${project.build.directory}/test/n1k0-casperjs-4f105a9/bin/casperjs</executable>
+									<workingDirectory>${basedir}</workingDirectory>
+									<arguments>
+										<argument>test</argument>
+										<argument>--verbose</argument>
+										<argument>${basedir}/src/test/js</argument>
+									</arguments>
+									<environmentVariables>
+										<PHANTOMJS_EXECUTABLE>${project.build.directory}/test/phantomjs-1.9.8-macosx/bin/phantomjs</PHANTOMJS_EXECUTABLE>
+									</environmentVariables>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<id>integration-slimerjs</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>com.googlecode.maven-download-plugin</groupId>
+						<artifactId>download-maven-plugin</artifactId>
+						<version>1.2.1</version>
+						<executions>
+							<execution>
+								<id>download-slimerjs</id>
+								<phase>process-test-resources</phase>
+								<goals>
+									<goal>wget</goal>
+								</goals>
+								<configuration>
+									<!--
+										The download-maven-plugin has trouble unpacking slimerjs for some reason, so use
+										the maven-antrun-plugin below instead.
+									-->
+									<!-- <unpack>true</unpack> -->
+									<url>http://download.slimerjs.org/releases/0.9.6/slimerjs-0.9.6-mac.tar.bz2</url>
+									<outputDirectory>${project.build.directory}/test</outputDirectory>
+									<md5>87ce369501a4995ab84555cb123c2049</md5>
+								</configuration>
+							</execution>
+							<execution>
+								<id>download-casperjs</id>
+								<phase>process-test-resources</phase>
+								<goals>
+									<goal>wget</goal>
+								</goals>
+								<configuration>
+									<url>https://github.com/n1k0/casperjs/zipball/1.1-beta3</url>
+									<unpack>true</unpack>
+									<outputFileName>n1k0-casperjs-4f105a9.zip</outputFileName>
+									<outputDirectory>${project.build.directory}/test</outputDirectory>
+									<md5>a9c650291afee5a04adaaf729a50d60e</md5>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<artifactId>maven-antrun-plugin</artifactId>
+						<version>1.8</version>
+						<executions>
+							<execution>
+								<id>unzip-slimerjs</id>
+								<goals>
+									<goal>run</goal>
+								</goals>
+								<phase>process-test-resources</phase>
+								<configuration>
+									<target>
+										<taskdef resource="net/sf/antcontrib/antcontrib.properties" classpathref="maven.plugin.classpath" />
+										<if>
+											<not>
+												<available file="${project.build.directory}/test/slimerjs-0.9.6/slimerjs" />
+											</not>
+											<then>
+												<untar compression="bzip2" src="${project.build.directory}/test/slimerjs-0.9.6-mac.tar.bz2" dest="${project.build.directory}/test" />
+												<!--
+													Workaround because when the files are unzipped, they are not
+													executable.
+												-->
+												<chmod file="${project.build.directory}/test/slimerjs-0.9.6/xulrunner/xulrunner" perm="+x" />
+												<chmod file="${project.build.directory}/test/slimerjs-0.9.6/slimerjs" perm="+x" />
+											</then>
+										</if>
+									</target>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+					<!--
+						Note: We are not using casperjs-runner-maven-plugin becuase it is only designed to work when
+						slimerjs is on the PATH. Since we are downloading slimerjs, we need to specify it using the
+						PATH environment variable. casperjs-runner-maven-plugin actually has an option
+						to set environment variables, but it does not respect them when it initially calls
+						`casperjs - -version` so it fails.
+
+						Note 2: casperjs does not produce an exit code of 1 when tests fail on slimerjs
+						(https://github.com/n1k0/casperjs/issues/314#issuecomment-157128873).
+					-->
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>exec-maven-plugin</artifactId>
+						<version>1.4.0</version>
+						<executions>
+							<execution>
+								<phase>test</phase>
+								<goals>
+									<goal>exec</goal>
+								</goals>
+								<configuration>
+									<executable>${project.build.directory}/test/n1k0-casperjs-4f105a9/bin/casperjs</executable>
+									<workingDirectory>${basedir}</workingDirectory>
+									<arguments>
+										<argument>test</argument>
+										<argument>--engine=slimerjs</argument>
+										<argument>--verbose</argument>
+										<argument>${basedir}/src/test/js</argument>
+									</arguments>
+									<environmentVariables>
+										<SLIMERJSLAUNCHER>${project.build.directory}/test/slimerjs-0.9.6/xulrunner/xulrunner</SLIMERJSLAUNCHER>
+										<PATH>${env.PATH}:${project.build.directory}/test/slimerjs-0.9.6</PATH>
+									</environmentVariables>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
 		</profile>
 	</profiles>
 
