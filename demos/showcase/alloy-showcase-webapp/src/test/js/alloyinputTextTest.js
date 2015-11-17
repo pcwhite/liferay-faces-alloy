@@ -1,7 +1,7 @@
 // http://docs.casperjs.org/en/latest/testing.html#browser-tests
 // http://docs.casperjs.org/en/latest/modules/
 
-var url = "http://localhost:8181/alloy-showcase-webapp-3.0.0-SNAPSHOT/views/component.faces?componentPrefix=alloy&componentName=inputtext&componentUseCase=";
+var url = "http://localhost:8080/alloy-showcase-webapp-3.0.0-SNAPSHOT/views/component.faces?componentPrefix=alloy&componentName=inputtext&componentUseCase=";
 var useCase = 'general';
 var x = require('casper').selectXPath;
 
@@ -12,6 +12,8 @@ casper.test.begin('Test alloy:inputText ' + useCase, function suite(test) {
 		var inputXpath = '//input[contains(@id,":text")]';
 		var buttonXpath = '//button[text()="Submit"]';
 		var modelValueXpath = '//span[contains(@id,":modelValue")]';
+		var checkboxXpath = '//input[@class="alloy-select-boolean-checkbox checkbox"]';
+		
 
 		this.test.assertExists({
 			type: 'xpath',
@@ -27,10 +29,22 @@ casper.test.begin('Test alloy:inputText ' + useCase, function suite(test) {
 			type: 'xpath',
 			path: modelValueXpath
 		}, 'modelValue element exists');
+		
+		this.test.assertExists({
+			type: 'xpath',
+			path: checkboxXpath
+		}, 'checkbox element exists');
 
+		var checkboxSelector = x(checkboxXpath);
+		this.click(checkboxSelector);
+		this.click(x(buttonXpath));
+		var errorTextXpath = '//span[@class="alloy-message help-inline"]';
+		test.assertExists(x(errorTextXpath));
+		
 		var magic = "Hello World!";
 		this.sendKeys(x(inputXpath), magic);
 		this.click(x(buttonXpath));
+		
 		var modelValueSelector = x(modelValueXpath);
 		this.waitForSelectorTextChange(modelValueSelector, function () {
 			var modelValueText = this.fetchText(modelValueSelector);
