@@ -84,7 +84,7 @@
 									<arguments>
 										<argument>test</argument>
 										<argument>--verbose</argument>
-										<argument>${basedir}/src/test/js</argument>
+										<argument>${basedir}/src/test/js/alloyinputTextarea</argument>
 									</arguments>
 									<environmentVariables>
 										<PHANTOMJS_EXECUTABLE>${project.build.directory}/test/phantomjs-1.9.8-macosx/bin/phantomjs</PHANTOMJS_EXECUTABLE>
