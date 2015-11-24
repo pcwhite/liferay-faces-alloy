@@ -37,7 +37,7 @@ public class AlloyInputText {
 	
 
 //	private String inputTextUrl = "http://localhost:8080/alloy-showcase-webapp-3.0.0-SNAPSHOT/web/guest/showcase/-/component/alloy/inputtext"
-	private String inputTextUrl = "http://localhost:8080/web/guest/showcase1/-/component/alloy/inputtext";
+	private String inputTextUrl = "http://localhost:8080/web/guest/showcase/-/component/alloy/inputtext";
 	// http://localhost:8080/web/guest/showcase1/-/component/alloy/inputtext/general
 	
 	private String url;
@@ -345,7 +345,7 @@ public class AlloyInputText {
 		input.sendKeys(magicInErr);
 		System.out.println("input.getAttribute('value') = " + input.getAttribute("value"));
 		
-		submitButton = browser.findElement(By.xpath(submitButtonXpath));
+		submitButton = browser.findElement(By.xpath(submitButtonXpathRight));
 		submitButton.click();
 		
 //		waitForElement(browser, modelValueXpath);
@@ -357,6 +357,7 @@ public class AlloyInputText {
 			System.out.println("ValidationErrorText is Absent");
 			}
 		
+		input = browser.findElement(By.xpath(inputXpathRight));
 		input.clear();
 		input.sendKeys(magicIn);
 		System.out.println("input.getAttribute('value') = " + input.getAttribute("value"));
