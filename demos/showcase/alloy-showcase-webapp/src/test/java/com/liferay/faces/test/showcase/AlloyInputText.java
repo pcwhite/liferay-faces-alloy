@@ -9,7 +9,11 @@ import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.htmlunit.HtmlUnitDriver;
+import org.openqa.selenium.phantomjs.PhantomJSDriver;
+import org.openqa.selenium.safari.SafariDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -23,9 +27,9 @@ public class AlloyInputText {
 	private static final String submitButtonXpathRight = "(//button[contains(text(),'Submit')])[2]";
 	private static final String modelValueXpathRight = "(//span[contains(@id,':modelValue')])[2]";
 //	private static final String checkboXpath = "//input[@class='alloy-select-boolean-checkbox checkbox']";
-	private static final String checkboxXpath_02 = "(//input[contains(@id,':requiredCheckbox'])";
+	private static final String checkboxXpath_02 = "//input[contains(@id,':requiredCheckbox')]";
 	private static final String successXpath = "(//div[@class='alloy-field control-group success'])[1]";
-	private static final String ModelValueContainsErrorTextXpath_01 = "(//span[@class='alloy-message help-inline'])";
+	private static final String ModelValueContainsErrorTextXpath = "//span[@class='alloy-message help-inline']";
 	private static final String ModelValueContainsSpecifiedTextXpath_01 = "(//li[@class='text-info'])[1]";
 	private static final String ModelValueContainsSpecifiedTextXpath_02 = "(//li[@class='text-info'])[2]";
 //	private static final String checkbox = "(//input[@class='alloy-select-boolean-checkbox checkbox'])[2]";
@@ -54,6 +58,7 @@ public class AlloyInputText {
 //	WebDriver browser = new PhantomJSDriver();
 //	WebDriver browser = new ChromeDriver();
 //	WebDriver browser = new HtmlUnitDriver();
+//	WebDriver browser = new SafariDriver();
 	
 	WebDriverWait wait = new WebDriverWait(browser, 10);
 
@@ -73,7 +78,8 @@ public class AlloyInputText {
 		browser.navigate().to(url);
 
 		String magic = "Hello World!";
-		
+
+		waitForElement(browser, submitButtonXpath);
 		submitButton = browser.findElement(By.xpath(submitButtonXpath));
 		submitButton.click();
 
@@ -93,9 +99,9 @@ public class AlloyInputText {
 		submitButton = browser.findElement(By.xpath(submitButtonXpath));
 		submitButton.click();
 
-		waitForElement(browser, ModelValueContainsErrorTextXpath_01);
+		waitForElement(browser, ModelValueContainsErrorTextXpath);
 
-		if (browser.findElement(By.xpath(ModelValueContainsErrorTextXpath_01)) != null) {
+		if (browser.findElement(By.xpath(ModelValueContainsErrorTextXpath)) != null) {
 			System.out.println("ErrorText is Present");
 		}else{
 			System.out.println("ErrorText is Absent");
@@ -109,7 +115,7 @@ public class AlloyInputText {
 		submitButton = browser.findElement(By.xpath(submitButtonXpath));
 		submitButton.click();
 
-		waitForElement(browser, modelValueXpath);
+		waitForText(browser, modelValueXpath, magic);
 
 		modelValue = browser.findElement(By.xpath(modelValueXpath));
 		System.out.println("modelValue.getText() = " + modelValue.getText());
@@ -135,9 +141,9 @@ public class AlloyInputText {
 		submitButton = browser.findElement(By.xpath(submitButtonXpath));
 		submitButton.click();
 		
-		waitForElement(browser, modelValueXpath);
+		waitForElement(browser, ModelValueContainsErrorTextXpath);
 		
-		if (browser.findElement(By.xpath(ModelValueContainsErrorTextXpath_01)) != null) {
+		if (browser.findElement(By.xpath(ModelValueContainsErrorTextXpath)) != null) {
 			System.out.println("ConversionErrorText is Present");
 		}else{
 			System.out.println("ConversionErrorText is Absent");
@@ -153,7 +159,7 @@ public class AlloyInputText {
 		submitButton = browser.findElement(By.xpath(submitButtonXpath));
 		submitButton.click();
 		
-		waitForElement(browser, modelValueXpath);
+		waitForText(browser, modelValueXpath, magicOut);
 		
 		String text = "";
 		
@@ -177,10 +183,10 @@ public class AlloyInputText {
 		input.sendKeys(magicInErr);
 		System.out.println("input.getAttribute('value') = " + input.getAttribute("value"));
 		
-		submitButton = browser.findElement(By.xpath(submitButtonXpath));
+		submitButton = browser.findElement(By.xpath(submitButtonXpathRight));
 		submitButton.click();
 		
-		waitForElement(browser, modelValueXpath);
+		waitForElement(browser, ModelValueContainsErrorTextXpath);
 
 		input = browser.findElement(By.xpath(inputXpathRight));		
 		input.clear();
@@ -194,7 +200,7 @@ public class AlloyInputText {
 
 
 		
-		waitForElement(browser, modelValueXpathRight);
+		waitForText(browser, modelValueXpathRight, magicOut);
 		text = "";
 		
 		modelValue = browser.findElement(By.xpath(modelValueXpathRight));
@@ -225,7 +231,7 @@ public class AlloyInputText {
 
 
 		
-		waitForElement(browser, modelValueXpath);
+		waitForText(browser, modelValueXpath, magicOut);
 		text = "";
 		
 		modelValue = browser.findElement(By.xpath(modelValueXpath));
@@ -253,7 +259,7 @@ public class AlloyInputText {
 
 
 		
-		waitForElement(browser, modelValueXpathRight);
+		waitForText(browser, modelValueXpathRight, magicOut);
 		text = "";
 		
 		modelValue = browser.findElement(By.xpath(modelValueXpathRight));
@@ -294,13 +300,13 @@ public class AlloyInputText {
 		submitButton = browser.findElement(By.xpath(submitButtonXpath));
 		submitButton.click();
 		
-		waitForElement(browser, modelValueXpath);
+		waitForElement(browser, ModelValueContainsErrorTextXpath);
 		
-		if (browser.findElement(By.xpath(ModelValueContainsErrorTextXpath_01)) != null) {
+		if (browser.findElement(By.xpath(ModelValueContainsErrorTextXpath)) != null) {
 			System.out.println("ValidationErrorText is Present");
-			}else{
+		}else{
 			System.out.println("ValidationErrorText is Absent");
-			}
+		}
 		
 		input = browser.findElement(By.xpath(inputXpath));
 		input.clear();
@@ -314,7 +320,7 @@ public class AlloyInputText {
 
 
 		
-		waitForElement(browser, modelValueXpath);
+		waitForText(browser, modelValueXpath, magicOut);
 		text = "";
 		
 		modelValue = browser.findElement(By.xpath(modelValueXpath));
@@ -340,9 +346,9 @@ public class AlloyInputText {
 		submitButton = browser.findElement(By.xpath(submitButtonXpathRight));
 		submitButton.click();
 		
-		waitForElement(browser, modelValueXpath);
+		waitForElement(browser, ModelValueContainsErrorTextXpath);
 		
-		if (browser.findElement(By.xpath(ModelValueContainsErrorTextXpath_01)) != null) {
+		if (browser.findElement(By.xpath(ModelValueContainsErrorTextXpath)) != null) {
 			System.out.println("ValidationErrorText is Present");
 		}else{
 			System.out.println("ValidationErrorText is Absent");
@@ -360,7 +366,7 @@ public class AlloyInputText {
 
 
 		
-		waitForElement(browser, modelValueXpath);
+		waitForText(browser, modelValueXpathRight, magicOut);
 		text = "";
 		
 		modelValue = browser.findElement(By.xpath(modelValueXpathRight));
@@ -376,6 +382,11 @@ public class AlloyInputText {
 	public void waitForElement(WebDriver browser, String xpath) {
 		WebDriverWait wait = new WebDriverWait(browser, 5);
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.ByXPath.xpath(xpath)));
+	}
+
+	public void waitForText(WebDriver browser, String xpath, String text) {
+		WebDriverWait wait = new WebDriverWait(browser, 5);
+		wait.until(ExpectedConditions.textToBePresentInElementLocated(By.ByXPath.xpath(xpath), text));
 	}
 	
 //	public boolean isThere(WebDriver browser, String xpath) {
