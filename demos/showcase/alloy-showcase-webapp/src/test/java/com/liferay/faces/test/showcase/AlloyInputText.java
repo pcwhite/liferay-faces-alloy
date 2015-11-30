@@ -27,21 +27,18 @@ public class AlloyInputText {
 	private static final String submitButtonXpathRight = "(//button[contains(text(),'Submit')])[2]";
 	private static final String modelValueXpathRight = "(//span[contains(@id,':modelValue')])[2]";
 //	private static final String checkboXpath = "//input[@class='alloy-select-boolean-checkbox checkbox']";
-	private static final String checkboxXpath_02 = "//input[contains(@id,':requiredCheckbox')]";
+//	private static final String checkboxXpath_02 = "//input[contains(@id,':requiredCheckbox')]";
 	private static final String successXpath = "(//div[@class='alloy-field control-group success'])[1]";
 	private static final String ModelValueContainsErrorTextXpath = "//span[@class='alloy-message help-inline']";
 	private static final String ModelValueContainsSpecifiedTextXpath_01 = "(//li[@class='text-info'])[1]";
 	private static final String ModelValueContainsSpecifiedTextXpath_02 = "(//li[@class='text-info'])[2]";
-//	private static final String checkbox = "(//input[@class='alloy-select-boolean-checkbox checkbox'])[2]";
-//	private static final String checkbox = "(//input[@class='alloy-select-boolean-checkbox checkbox'])[2]";
-//	private static final String checkbox = "(//input[@class='alloy-select-boolean-checkbox checkbox'])[2]";
-//	private static final String checkbox = "(//input[@class='alloy-select-boolean-checkbox checkbox'])[2]";
+	private static final String checkboxXpath_02 = "(//input[@class='alloy-select-boolean-checkbox checkbox'])[2]";
 //	
 	
 	
 
-	private String inputTextUrl = "http://localhost:8181/alloy-showcase-webapp-2.0.0-SNAPSHOT/web/guest/showcase/-/component/alloy/inputtext";
-//	private String inputTextUrl = "http://localhost:8080/web/guest/showcase/-/component/alloy/inputtext";
+//	private String inputTextUrl = "http://localhost:8181/alloy-showcase-webapp-2.0.0-SNAPSHOT/web/guest/showcase/-/component/alloy/inputtext";
+	private String inputTextUrl = "http://localhost:8080/web/guest/showcase/-/component/alloy/inputtext";
 	// http://localhost:8080/web/guest/showcase1/-/component/alloy/inputtext/general
 	
 	private String url;
@@ -94,7 +91,7 @@ public class AlloyInputText {
 		input = browser.findElement(By.xpath(checkboxXpath_02));
 		input.click();
 
-		waitForElement(browser, submitButtonXpath);
+		waitForInvisiblilityOfElement(browser, successXpath);
 
 		submitButton = browser.findElement(By.xpath(submitButtonXpath));
 		submitButton.click();
@@ -387,6 +384,11 @@ public class AlloyInputText {
 	public void waitForText(WebDriver browser, String xpath, String text) {
 		WebDriverWait wait = new WebDriverWait(browser, 5);
 		wait.until(ExpectedConditions.textToBePresentInElementLocated(By.ByXPath.xpath(xpath), text));
+	}
+
+	public void waitForInvisiblilityOfElement(WebDriver browser, String xpath) {
+		WebDriverWait wait = new WebDriverWait(browser, 5);
+		wait.until(ExpectedConditions.invisibilityOfElementLocated(By.ByXPath.xpath(xpath)));
 	}
 	
 //	public boolean isThere(WebDriver browser, String xpath) {
