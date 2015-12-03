@@ -15,9 +15,9 @@ package com.liferay.faces.test.showcase.inputtext;
 
 import org.junit.Test;
 
-import static com.liferay.faces.test.showcase.AlloyShowcaseTestSuiteUtil.*;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
+
+import static com.liferay.faces.test.showcase.AlloyShowcaseTestSuiteUtil.*;
 
 
 /**
@@ -30,35 +30,30 @@ public class InputTextGeneralTest extends InputTextTester {
 
 		navigateToURL(inputTextURL + "general");
 
+		// Click the submit button to submit the form with an empty value and assert that the value has been
+		// successfully submitted.
+		waitForElement(submitButtonXpath);
+		click(submitButtonXpath);
+
 		String successXpath = "//div[@class='alloy-field control-group success']";
+		waitForElement(successXpath);
+		assertElementExists(successXpath);
 
-		{
-			waitForElement(submitButtonXpath);
-			click(submitButtonXpath);
-			waitForElement(successXpath);
-			assertElementExists(successXpath);
-		}
+		// Click the required checkbox, wait for the form to re-render, submit an empty value, and assert that an
+		// error is shown.
+		WebElement successElement = getElement(successXpath);
+		String requiredCheckboxXpath = "(//input[@class='alloy-select-boolean-checkbox checkbox'])[2]";
+		click(requiredCheckboxXpath);
+		waitWhileElementExists(successElement);
+		click(submitButtonXpath);
+		waitForElement(errorXpath);
+		assertElementExists(errorXpath);
 
-		{
-			WebElement successElement = getElement(successXpath);
-			String requiredCheckboxXpath = "(//input[@class='alloy-select-boolean-checkbox checkbox'])[2]";
-			click(requiredCheckboxXpath);
-			waitWhileElementExists(successElement);
-		}
-
-		{
-			click(submitButtonXpath);
-			waitForElement(errorXpath);
-			assertElementExists(errorXpath);
-		}
-
+		// Enter text in the input, submit the form, and assert that the text appears in the model value.
 		String text = "Hello World!";
-
-		{
-			sendKeys(inputXpath, text);
-			click(submitButtonXpath);
-			waitForElementText(modelValueXpath, text);
-			assertElementTextExists(modelValueXpath, text);
-		}
+		sendKeys(inputXpath, text);
+		click(submitButtonXpath);
+		waitForElementText(modelValueXpath, text);
+		assertElementTextExists(modelValueXpath, text);
 	}
 }
