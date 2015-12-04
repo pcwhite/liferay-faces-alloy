@@ -51,6 +51,18 @@
 					</execution>
 				</executions>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<properties>
+						<property>
+							<name>listener</name>
+							<value>com.liferay.faces.test.showcase.AlloyShowcaseTestSuiteListener</value>
+						</property>
+					</properties>
+				</configuration>
+			</plugin>
 		</plugins>
 		<resources>
 			<resource>
@@ -70,6 +82,39 @@
 	</build>
 
 	<dependencies>
+
+		<!-- for test -->
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-java</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+		</dependency>
+		<dependency> 
+			<groupId>com.codeborne</groupId> 
+			<artifactId>phantomjsdriver</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-chrome-driver</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-htmlunit-driver</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-safari-driver</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.googlecode.cedar-common</groupId>
+			<artifactId>cpsuite</artifactId>
+			<version>1.2.6</version>
+		</dependency>
+
+
 		<dependency>
 			<groupId>com.liferay.faces.alloy</groupId>
 			<artifactId>liferay-faces-alloy</artifactId>

@@ -427,6 +427,36 @@
 				<artifactId>commons-io</artifactId>
 				<version>2.2</version>
 			</dependency>
+
+			<!-- for test -->
+			<dependency>
+				<groupId>org.seleniumhq.selenium</groupId>
+				<artifactId>selenium-java</artifactId>
+				<version>2.46.0</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency> 
+				<groupId>com.codeborne</groupId> 
+				<artifactId>phantomjsdriver</artifactId> 
+				<version>1.2.1</version> 
+			</dependency>
+			<dependency>
+				<groupId>org.seleniumhq.selenium</groupId>
+				<artifactId>selenium-chrome-driver</artifactId>
+				<version>2.44.0</version>
+			</dependency>
+			<dependency>
+				<groupId>org.seleniumhq.selenium</groupId>
+				<artifactId>selenium-htmlunit-driver</artifactId>
+				<version>2.48.2</version>
+			</dependency>
+			<dependency>
+				<groupId>org.seleniumhq.selenium</groupId>
+				<artifactId>selenium-safari-driver</artifactId>
+				<version>2.48.2</version>
+			</dependency>
+
+
 			<dependency>
 				<groupId>javax.annotation</groupId>
 				<artifactId>jsr250-api</artifactId>
