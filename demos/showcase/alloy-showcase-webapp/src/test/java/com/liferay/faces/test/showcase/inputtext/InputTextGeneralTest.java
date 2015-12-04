@@ -42,7 +42,7 @@ public class InputTextGeneralTest extends InputTextTester {
 		// Click the required checkbox, wait for the form to re-render, submit an empty value, and assert that an
 		// error is shown.
 		WebElement successElement = getElement(successXpath);
-		String requiredCheckboxXpath = "(//input[@class='alloy-select-boolean-checkbox checkbox'])[2]";
+		String requiredCheckboxXpath = "//input[contains(@id,':requiredCheckbox')]";
 		click(requiredCheckboxXpath);
 		waitWhileElementExists(successElement);
 		click(submitButtonXpath);
