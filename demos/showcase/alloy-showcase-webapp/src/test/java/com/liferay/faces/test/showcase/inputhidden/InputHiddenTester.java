@@ -18,15 +18,20 @@ import com.liferay.faces.test.showcase.IntegrationTesterBase;
 
 /**
  * @author  Kyle Stiemann
+ * @author 	Philip White
  */
 public class InputHiddenTester extends IntegrationTesterBase {
 
-	protected static final String inputTextURL = testBaseURL + "inputhidden/";
+	protected static final String inputHiddenURL = testBaseURL + "inputhidden/";
 	protected static final String modelValueXpath = "(//span[contains(@id,':modelValue')])[1]";
 	protected static final String inputXpath = "(//input[contains(@id,':hidden')])[1]";
 	protected static final String submitButtonXpath = "(//button[contains(text(),'Submit')])[1]";
+	protected static final String hiddenButtonXpath = "(//button[contains(text(),'Copy')])[1]";
+	protected static final String clearButtonXpath = "(//button[contains(text(),'Clear')])[1]";
 	protected static final String errorXpath = "//span[@class='alloy-message help-block']";
 	protected static final String inputXpathRight = "(//input[contains(@id,':hidden')])[2]";
 	protected static final String submitButtonXpathRight = "(//button[contains(text(),'Submit')])[2]";
 	protected static final String modelValueXpathRight = "(//span[contains(@id,':modelValue')])[2]";
+	protected static final String hiddenButtonXpathRight = "(//button[contains(text(),'1234')])[2]";
+	protected static final String clearButtonXpathRight = "(//button[contains(text(),'Clear')])[2]";
 }

@@ -27,10 +27,10 @@ import com.liferay.faces.test.showcase.Browser;
 public class InputSecretValidationTester extends InputSecretTester {
 
 	@Test
-	public void runInputTextValidationTest() throws Exception {
+	public void runInputSecretValidationTest() throws Exception {
 
 		Browser browser = Browser.getInstance();
-		browser.navigateToURL(inputTextURL + "validation");
+		browser.navigateToURL(inputSecretURL + "validation");
 
 		// Wait to begin the test until the submit button is rendered.
 		browser.waitForElement(submitButtonXpath);

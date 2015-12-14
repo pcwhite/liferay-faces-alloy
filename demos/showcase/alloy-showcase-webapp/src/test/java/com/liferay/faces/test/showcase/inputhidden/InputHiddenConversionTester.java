@@ -30,50 +30,49 @@ public class InputHiddenConversionTester extends InputHiddenTester {
 	public void runInputTextareaConversionTest() throws Exception {
 
 		Browser browser = Browser.getInstance();
-		browser.navigateToURL(inputTextURL + "conversion");
+		browser.navigateToURL(inputHiddenURL + "conversion");
 
 		// Wait to begin the test until the submit button is rendered.
 		browser.waitForElement(submitButtonXpath);
 
 		// Test that the web page shows an error message when an invalid value is submitted.
-		WebElement input = browser.getElement(inputXpath);
-		input.clear();
-
-		String invalidText = "apr 3 33";
-		input.sendKeys(invalidText);
+		String text = "Apr 5, 0033";
+		browser.click(hiddenButtonXpath);
 		browser.click(submitButtonXpath);
-		browser.waitForElement(errorXpath);
-		browser.assertElementExists(errorXpath);
+		browser.waitForElementText(modelValueXpath, text);
+		browser.assertElementTextExists(modelValueXpath, text);
+		browser.click(clearButtonXpath);
+		browser.click(submitButtonXpath);
 
 		// Test that a valid value submits successfully.
-		input = browser.getElement(inputXpath);
-		input.clear();
-
-		String text = "apr 3, 33";
-		input.sendKeys(text);
-		browser.click(submitButtonXpath);
-
-		String textOutput = "Apr 3, 0033";
-		browser.waitForElementText(modelValueXpath, textOutput);
-		browser.assertElementTextExists(modelValueXpath, textOutput);
+//		input = browser.getElement(inputXpath);
+//		input.clear();
+//
+//		String text = "apr 3, 33";
+//		input.sendKeys(text);
+//		browser.click(submitButtonXpath);
+//
+//		String textOutput = "Apr 3, 0033";
+//		browser.waitForElementText(modelValueXpath, textOutput);
+//		browser.assertElementTextExists(modelValueXpath, textOutput);
 
 		// Test that the web page shows an error message when an invalid value is submitted.
-		input = browser.getElement(inputXpathRight);
-		input.clear();
-		invalidText = "4/333";
-		input.sendKeys(invalidText);
+		text = "04/05/0033";
+		browser.click(hiddenButtonXpathRight);
 		browser.click(submitButtonXpathRight);
-		browser.waitForElement(errorXpath);
-		browser.assertElementExists(errorXpath);
+		browser.waitForElementText(modelValueXpathRight, text);
+		browser.assertElementTextExists(modelValueXpathRight, text);
+		browser.click(clearButtonXpathRight);
+		browser.click(submitButtonXpathRight);
 
 		// Test that a valid value submits successfully.
-		input = browser.getElement(inputXpathRight);
-		input.clear();
-		text = "4/3/33";
-		input.sendKeys(text);
-		browser.click(submitButtonXpathRight);
-		textOutput = "04/03/0033";
-		browser.waitForElementText(modelValueXpathRight, textOutput);
-		browser.assertElementTextExists(modelValueXpathRight, textOutput);
+//		input = browser.getElement(inputXpathRight);
+//		input.clear();
+//		text = "4/3/33";
+//		input.sendKeys(text);
+//		browser.click(submitButtonXpathRight);
+//		textOutput = "04/03/0033";
+//		browser.waitForElementText(modelValueXpathRight, textOutput);
+//		browser.assertElementTextExists(modelValueXpathRight, textOutput);
 	}
 }
