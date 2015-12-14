@@ -24,36 +24,36 @@ import com.liferay.faces.test.showcase.Browser;
  * @author  Kyle Stiemann
  * @author  Philip White
  */
-public class InputSecretImmediateTester extends InputSecretTester {
+public class InputSecretRedisplayTester extends InputSecretTester {
 
 	@Test
-	public void runInputSecretImmediateTest() throws Exception {
+	public void runInputSecretRedisplayTest() throws Exception {
 
 		Browser browser = Browser.getInstance();
-		browser.navigateToURL(inputSecretURL + "immediate");
+		browser.navigateToURL(inputSecretURL + "redisplay");
 
 		// Wait to begin the test until the submit button is rendered.
 		browser.waitForElement(submitButtonXpath);
 
-		// Test that the value submits successfully and the valueChangeListener method is called during the
-		// APPLY_REQUEST_VALUES phase.
-		WebElement input = browser.getElement(inputXpath);
+		// Test that the value submits successfully and the alloy:inputSecret component is intentionally
+		// not re-rendered in the DOM.
+		WebElement input = browser.getElement(inputSecretXpath);
 		String text = "Hello World!";
 		input.sendKeys(text);
 		browser.click(submitButtonXpath);
 
-		String immediateMessage = "//li[@class='text-info'][contains(text(),'APPLY_REQUEST_VALUES')]";
+		String immediateMessage = "//td[contains(text(),'was intentionally not re-rendered')]";
 		browser.waitForElement(immediateMessage);
 		browser.assertElementTextExists(modelValueXpath, text);
 		browser.assertElementExists(immediateMessage);
 
-		// Test that the value submits successfully and the valueChangeListener method is called during the
-		// PROCESS_VALIDATIONS phase.
-		input = browser.getElement(inputXpathRight);
+		// Test that the value submits successfully and the entire form (including the alloy:inputSecret component)
+		// is re-rendered in the DOM.
+		input = browser.getElement(inputSecretXpathRight);
 		input.sendKeys(text);
 		browser.click(submitButtonXpathRight);
 
-		String immediateMessageRight = "//li[@class='text-info'][contains(text(),'PROCESS_VALIDATIONS')]";
+		String immediateMessageRight = "//td[contains(text(),'entire form')]";
 		browser.waitForElement(immediateMessageRight);
 		browser.assertElementTextExists(modelValueXpathRight, text);
 		browser.assertElementExists(immediateMessageRight);

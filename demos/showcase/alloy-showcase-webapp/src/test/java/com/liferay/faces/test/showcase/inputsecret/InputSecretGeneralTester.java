@@ -30,7 +30,7 @@ public class InputSecretGeneralTester extends InputSecretTester {
 	public void runInputSecretGeneralTest() throws Exception {
 
 		Browser browser = Browser.getInstance();
-		browser.navigateToURL(inputTextURL + "general");
+		browser.navigateToURL(inputSecretURL + "general");
 
 		// Wait to begin the test until the submit button is rendered.
 		browser.waitForElement(submitButtonXpath);

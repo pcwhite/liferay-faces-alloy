@@ -18,15 +18,18 @@ import com.liferay.faces.test.showcase.IntegrationTesterBase;
 
 /**
  * @author  Kyle Stiemann
+ * @author 	Philip White
  */
 public class InputSecretTester extends IntegrationTesterBase {
 
-	protected static final String inputTextURL = testBaseURL + "inputsecret/";
+	protected static final String inputSecretURL = testBaseURL + "inputsecret/";
 	protected static final String modelValueXpath = "(//span[contains(@id,':modelValue')])[1]";
 	protected static final String inputXpath = "(//input[contains(@id,':text')])[1]";
+	protected static final String inputSecretXpath = "(//input[contains(@id,':secret')])[1]";
 	protected static final String submitButtonXpath = "(//button[contains(text(),'Submit')])[1]";
 	protected static final String errorXpath = "//span[@class='alloy-message help-block']";
 	protected static final String inputXpathRight = "(//input[contains(@id,':text')])[2]";
+	protected static final String inputSecretXpathRight = "(//input[contains(@id,':secret')])[2]";
 	protected static final String submitButtonXpathRight = "(//button[contains(text(),'Submit')])[2]";
 	protected static final String modelValueXpathRight = "(//span[contains(@id,':modelValue')])[2]";
 }

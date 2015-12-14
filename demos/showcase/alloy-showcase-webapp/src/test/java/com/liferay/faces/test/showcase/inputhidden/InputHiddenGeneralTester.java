@@ -18,6 +18,7 @@ import org.junit.Test;
 import org.openqa.selenium.WebElement;
 
 import com.liferay.faces.test.showcase.Browser;
+import com.thoughtworks.selenium.webdriven.commands.IsElementPresent;
 
 
 /**
@@ -30,7 +31,7 @@ public class InputHiddenGeneralTester extends InputHiddenTester {
 	public void runInputHiddenGeneralTest() throws Exception {
 
 		Browser browser = Browser.getInstance();
-		browser.navigateToURL(inputTextURL + "general");
+		browser.navigateToURL(inputHiddenURL + "general");
 
 		// Wait to begin the test until the submit button is rendered.
 		browser.waitForElement(submitButtonXpath);
@@ -51,11 +52,15 @@ public class InputHiddenGeneralTester extends InputHiddenTester {
 		browser.waitForElement(errorXpath);
 		browser.assertElementExists(errorXpath);
 
-		// Test that a text value submits successfully.
-		String text = "Hello World!";
-		browser.sendKeys(inputXpath, text);
+		// Test that a hidden value submits and clears successfully.
+		String text = "1234";
+		browser.click(hiddenButtonXpath);
 		browser.click(submitButtonXpath);
 		browser.waitForElementText(modelValueXpath, text);
 		browser.assertElementTextExists(modelValueXpath, text);
+		browser.click(clearButtonXpath);
+		browser.click(submitButtonXpath);
+		browser.waitForElement(errorXpath);
+		browser.assertElementExists(errorXpath);
 	}
 }
