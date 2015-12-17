@@ -27,52 +27,38 @@ import com.liferay.faces.test.showcase.Browser;
 public class InputHiddenConversionTester extends InputHiddenTester {
 
 	@Test
-	public void runInputTextareaConversionTest() throws Exception {
+	public void runInputHiddenConversionTest() throws Exception {
 
 		Browser browser = Browser.getInstance();
 		browser.navigateToURL(inputHiddenURL + "conversion");
 
 		// Wait to begin the test until the submit button is rendered.
-		browser.waitForElement(submitButtonXpath);
+		browser.waitForElementVisible(submitButtonXpath);
 
-		// Test that the web page shows an error message when an invalid value is submitted.
+		// Test that a hidden valid value submits successfully.
 		String text = "Apr 5, 0033";
 		browser.click(hiddenButtonXpath);
 		browser.click(submitButtonXpath);
-		browser.waitForElementText(modelValueXpath, text);
-		browser.assertElementTextExists(modelValueXpath, text);
+		browser.waitForElementTextPresent(modelValueXpath, text);
+		browser.assertElementTextPresent(modelValueXpath, text);
+		
+		// Test that the hidden value clears successfully.
 		browser.click(clearButtonXpath);
 		browser.click(submitButtonXpath);
+		browser.waitForElementPresent(modelValueEmptyXpath);
+		browser.assertElementPresent(modelValueEmptyXpath);
 
-		// Test that a valid value submits successfully.
-//		input = browser.getElement(inputXpath);
-//		input.clear();
-//
-//		String text = "apr 3, 33";
-//		input.sendKeys(text);
-//		browser.click(submitButtonXpath);
-//
-//		String textOutput = "Apr 3, 0033";
-//		browser.waitForElementText(modelValueXpath, textOutput);
-//		browser.assertElementTextExists(modelValueXpath, textOutput);
-
-		// Test that the web page shows an error message when an invalid value is submitted.
+		// Test that a hidden valid value submits successfully.
 		text = "04/05/0033";
 		browser.click(hiddenButtonXpathRight);
 		browser.click(submitButtonXpathRight);
-		browser.waitForElementText(modelValueXpathRight, text);
-		browser.assertElementTextExists(modelValueXpathRight, text);
+		browser.waitForElementTextPresent(modelValueXpathRight, text);
+		browser.assertElementTextPresent(modelValueXpathRight, text);
+		
+		// Test that the hidden value clears successfully.
 		browser.click(clearButtonXpathRight);
 		browser.click(submitButtonXpathRight);
-
-		// Test that a valid value submits successfully.
-//		input = browser.getElement(inputXpathRight);
-//		input.clear();
-//		text = "4/3/33";
-//		input.sendKeys(text);
-//		browser.click(submitButtonXpathRight);
-//		textOutput = "04/03/0033";
-//		browser.waitForElementText(modelValueXpathRight, textOutput);
-//		browser.assertElementTextExists(modelValueXpathRight, textOutput);
+		browser.waitForElementPresent(modelValueEmptyXpathRight);
+		browser.assertElementPresent(modelValueEmptyXpathRight);
 	}
 }

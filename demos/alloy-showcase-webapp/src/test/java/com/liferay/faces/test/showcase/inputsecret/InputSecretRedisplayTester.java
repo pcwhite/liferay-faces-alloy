@@ -33,7 +33,7 @@ public class InputSecretRedisplayTester extends InputSecretTester {
 		browser.navigateToURL(inputSecretURL + "redisplay");
 
 		// Wait to begin the test until the submit button is rendered.
-		browser.waitForElement(submitButtonXpath);
+		browser.waitForElementVisible(submitButtonXpath);
 
 		// Test that the value submits successfully and the alloy:inputSecret component is intentionally
 		// not re-rendered in the DOM.
@@ -43,9 +43,9 @@ public class InputSecretRedisplayTester extends InputSecretTester {
 		browser.click(submitButtonXpath);
 
 		String immediateMessage = "//td[contains(text(),'was intentionally not re-rendered')]";
-		browser.waitForElement(immediateMessage);
-		browser.assertElementTextExists(modelValueXpath, text);
-		browser.assertElementExists(immediateMessage);
+		browser.waitForElementVisible(immediateMessage);
+		browser.assertElementTextPresent(modelValueXpath, text);
+		browser.assertElementPresent(immediateMessage);
 
 		// Test that the value submits successfully and the entire form (including the alloy:inputSecret component)
 		// is re-rendered in the DOM.
@@ -54,8 +54,8 @@ public class InputSecretRedisplayTester extends InputSecretTester {
 		browser.click(submitButtonXpathRight);
 
 		String immediateMessageRight = "//td[contains(text(),'entire form')]";
-		browser.waitForElement(immediateMessageRight);
-		browser.assertElementTextExists(modelValueXpathRight, text);
-		browser.assertElementExists(immediateMessageRight);
+		browser.waitForElementVisible(immediateMessageRight);
+		browser.assertElementTextPresent(modelValueXpathRight, text);
+		browser.assertElementPresent(immediateMessageRight);
 	}
 }

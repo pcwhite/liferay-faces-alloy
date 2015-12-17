@@ -11,7 +11,7 @@
  * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
  * details.
  */
-package com.liferay.faces.test.showcase.inputtextarea;
+package com.liferay.faces.test.showcase.inputtext;
 
 import org.junit.Test;
 
@@ -24,16 +24,16 @@ import com.liferay.faces.test.showcase.Browser;
  * @author  Kyle Stiemann
  * @author  Philip White
  */
-public class InputTextareaImmediateTester extends InputTextareaTester {
+public class InputTextImmediateTester extends InputTextTester {
 
 	@Test
-	public void runInputTextareaImmediateTest() throws Exception {
+	public void runInputTextImmediateTest() throws Exception {
 
 		Browser browser = Browser.getInstance();
 		browser.navigateToURL(inputTextURL + "immediate");
 
 		// Wait to begin the test until the submit button is rendered.
-		browser.waitForElement(submitButtonXpath);
+		browser.waitForElementVisible(submitButtonXpath);
 
 		// Test that the value submits successfully and the valueChangeListener method is called during the
 		// APPLY_REQUEST_VALUES phase.
@@ -43,9 +43,9 @@ public class InputTextareaImmediateTester extends InputTextareaTester {
 		browser.click(submitButtonXpath);
 
 		String immediateMessage = "//li[@class='text-info'][contains(text(),'APPLY_REQUEST_VALUES')]";
-		browser.waitForElement(immediateMessage);
-		browser.assertElementTextExists(modelValueXpath, text);
-		browser.assertElementExists(immediateMessage);
+		browser.waitForElementVisible(immediateMessage);
+		browser.assertElementTextPresent(modelValueXpath, text);
+		browser.assertElementPresent(immediateMessage);
 
 		// Test that the value submits successfully and the valueChangeListener method is called during the
 		// PROCESS_VALIDATIONS phase.
@@ -54,8 +54,8 @@ public class InputTextareaImmediateTester extends InputTextareaTester {
 		browser.click(submitButtonXpathRight);
 
 		String immediateMessageRight = "//li[@class='text-info'][contains(text(),'PROCESS_VALIDATIONS')]";
-		browser.waitForElement(immediateMessageRight);
-		browser.assertElementTextExists(modelValueXpathRight, text);
-		browser.assertElementExists(immediateMessageRight);
+		browser.waitForElementVisible(immediateMessageRight);
+		browser.assertElementTextPresent(modelValueXpathRight, text);
+		browser.assertElementPresent(immediateMessageRight);
 	}
 }

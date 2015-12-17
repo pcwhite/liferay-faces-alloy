@@ -33,7 +33,7 @@ public class InputSecretValidationTester extends InputSecretTester {
 		browser.navigateToURL(inputSecretURL + "validation");
 
 		// Wait to begin the test until the submit button is rendered.
-		browser.waitForElement(submitButtonXpath);
+		browser.waitForElementVisible(submitButtonXpath);
 
 		// Test that the web page shows an error message when an invalid value is submitted.
 		WebElement input = browser.getElement(inputXpath);
@@ -42,8 +42,8 @@ public class InputSecretValidationTester extends InputSecretTester {
 		String invalidText = "HelloWorldcom";
 		input.sendKeys(invalidText);
 		browser.click(submitButtonXpath);
-		browser.waitForElement(errorXpath);
-		browser.assertElementExists(errorXpath);
+		browser.waitForElementVisible(errorXpath);
+		browser.assertElementPresent(errorXpath);
 
 		// Test that a valid value submits successfully.
 		input = browser.getElement(inputXpath);
@@ -52,23 +52,23 @@ public class InputSecretValidationTester extends InputSecretTester {
 		String text = "Hello@World.com";
 		input.sendKeys(text);
 		browser.click(submitButtonXpath);
-		browser.waitForElementText(modelValueXpath, text);
-		browser.assertElementTextExists(modelValueXpath, text);
+		browser.waitForElementTextPresent(modelValueXpath, text);
+		browser.assertElementTextPresent(modelValueXpath, text);
 
 		// Test that the web page shows an error message when an invalid value is submitted.
 		input = browser.getElement(inputXpathRight);
 		input.clear();
 		input.sendKeys(invalidText);
 		browser.click(submitButtonXpathRight);
-		browser.waitForElement(errorXpath);
-		browser.assertElementExists(errorXpath);
+		browser.waitForElementVisible(errorXpath);
+		browser.assertElementPresent(errorXpath);
 
 		// Test that a valid value submits successfully.
 		input = browser.getElement(inputXpathRight);
 		input.clear();
 		input.sendKeys(text);
 		browser.click(submitButtonXpathRight);
-		browser.waitForElementText(modelValueXpathRight, text);
-		browser.assertElementTextExists(modelValueXpathRight, text);
+		browser.waitForElementTextPresent(modelValueXpathRight, text);
+		browser.assertElementTextPresent(modelValueXpathRight, text);
 	}
 }

@@ -24,6 +24,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.phantomjs.PhantomJSDriver;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -47,7 +48,7 @@ public class Browser {
 
 	private Browser() {
 
-		String browser = System.getProperty("integration.browser", "phantomjs");
+		String browser = System.getProperty("integration.browser", "firefox");
 
 		if ("phantomjs".equals(browser)) {
 			webDriver = new PhantomJSDriver();
@@ -72,20 +73,20 @@ public class Browser {
 		return instance;
 	}
 
-	public void assertElementExists(String xpath) {
-		assertElementExists("Element " + xpath + " exists.", xpath);
+	public void assertElementPresent(String xpath) {
+		assertElementPresent("Element " + xpath + " is present in the DOM.", xpath);
 	}
 
-	public void assertElementExists(String message, String xpath) {
+	public void assertElementPresent(String message, String xpath) {
 		WebElement element = getElement(xpath);
 		Assert.assertNotNull(message, element);
 	}
 
-	public void assertElementTextExists(String xpath, String text) {
-		assertElementTextExists("Element " + xpath + " contains text '" + text + "'", xpath, text);
+	public void assertElementTextPresent(String xpath, String text) {
+		assertElementTextPresent("Element " + xpath + " contains text \"" + text + "\".", xpath, text);
 	}
 
-	public void assertElementTextExists(String message, String xpath, String text) {
+	public void assertElementTextPresent(String message, String xpath, String text) {
 		WebElement modelValue = getElement(xpath);
 		String modelValueText = modelValue.getText();
 		Assert.assertEquals(message, text, modelValueText);
@@ -107,29 +108,33 @@ public class Browser {
 		getElement(xpath).sendKeys(keys);
 	}
 
-	public void waitForElement(String xpath) {
+	public void waitForElementVisible(String xpath) {
 
-		logger.log(Level.INFO, "Waiting for element {0}.", xpath);
+		logger.log(Level.INFO, "Waiting for element {0} to be visible.", xpath);
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.ByXPath.xpath(xpath)));
-		logger.log(Level.INFO, "Element {0} exists.", xpath);
+		logger.log(Level.INFO, "Element {0} is visible.", xpath);
+	}
+	
+	public void waitForElementPresent(String xpath) {
+
+		logger.log(Level.INFO, "Waiting for element {0} to be present in the DOM.", xpath);
+		wait.until(ExpectedConditions.presenceOfElementLocated(By.ByXPath.xpath(xpath)));
+		logger.log(Level.INFO, "Element {0} is present in the DOM.", xpath);
 	}
 
-	public void waitForElementText(String xpath, String text) {
+	public void waitForElementTextPresent(String xpath, String text) {
 
 		String[] loggerArgs = new String[] { xpath, text };
-		logger.log(Level.INFO, "Waiting for element {0} to contain text {1}.", loggerArgs);
+		logger.log(Level.INFO, "Waiting for element {0} to contain text \"{1}\".", loggerArgs);
 		wait.until(ExpectedConditions.textToBePresentInElementLocated(By.ByXPath.xpath(xpath), text));
-		logger.log(Level.INFO, "Element {0} contains text {1}.", loggerArgs);
+		logger.log(Level.INFO, "Element {0} contains text \"{1}\".", loggerArgs);
 	}
 
-	public void waitWhileElementExists(WebElement element) {
+	public void waitForElementNotPresent(String xpath) {
 
-		logger.log(Level.INFO, "Waiting while element {0} exists.", element);
-
-		// Note: We used stalenessOf instead of invisibilityOf because invisibiltyOf causes PhantomJS to log a warning.
-		// Either one works though.
-		wait.until(ExpectedConditions.stalenessOf(element));
-		logger.log(Level.INFO, "Element {0} does not exist.", element);
+		logger.log(Level.INFO, "Waiting for element {0} to not be present in the DOM.", xpath);
+		wait.until(ExpectedConditions.not(ExpectedConditions.presenceOfAllElementsLocatedBy(By.ByXPath.xpath(xpath))));
+		logger.log(Level.INFO, "Element {0} is not present in the DOM.", xpath);
 	}
 
 	public WebElement getElement(String xpath) {

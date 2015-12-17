@@ -11,56 +11,50 @@
  * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
  * details.
  */
-package com.liferay.faces.test.showcase.inputhidden;
+package com.liferay.faces.test.showcase.inputsecret;
 
 import org.junit.Test;
 
 import org.openqa.selenium.WebElement;
 
 import com.liferay.faces.test.showcase.Browser;
-import com.thoughtworks.selenium.webdriven.commands.IsElementPresent;
 
 
 /**
  * @author  Kyle Stiemann
  * @author  Philip White
  */
-public class InputHiddenGeneralTester extends InputHiddenTester {
+public class InputSecretGeneralTester extends InputSecretTester {
 
 	@Test
-	public void runInputHiddenGeneralTest() throws Exception {
+	public void runInputSecretGeneralTest() throws Exception {
 
 		Browser browser = Browser.getInstance();
-		browser.navigateToURL(inputHiddenURL + "general");
+		browser.navigateToURL(inputSecretURL + "general");
 
 		// Wait to begin the test until the submit button is rendered.
-		browser.waitForElement(submitButtonXpath);
+		browser.waitForElementVisible(submitButtonXpath);
 
 		// Test that an empty value submits successfully.
 		browser.click(submitButtonXpath);
 
 		String successXpath = "//div[@class='alloy-field form-group has-success']";
-		browser.waitForElement(successXpath);
-		browser.assertElementExists(successXpath);
+		browser.waitForElementVisible(successXpath);
+		browser.assertElementPresent(successXpath);
 
 		// Test that the web page shows an error message when a value is required and an empty value is submitted.
-		WebElement successElement = browser.getElement(successXpath);
 		String requiredCheckboxXpath = "//input[contains(@id,':requiredCheckbox')]";
 		browser.click(requiredCheckboxXpath);
-		browser.waitWhileElementExists(successElement);
+		browser.waitForElementNotPresent(successXpath);
 		browser.click(submitButtonXpath);
-		browser.waitForElement(errorXpath);
-		browser.assertElementExists(errorXpath);
+		browser.waitForElementVisible(errorXpath);
+		browser.assertElementPresent(errorXpath);
 
-		// Test that a hidden value submits and clears successfully.
-		String text = "1234";
-		browser.click(hiddenButtonXpath);
+		// Test that a text value submits successfully.
+		String text = "Hello World!";
+		browser.sendKeys(inputXpath, text);
 		browser.click(submitButtonXpath);
-		browser.waitForElementText(modelValueXpath, text);
-		browser.assertElementTextExists(modelValueXpath, text);
-		browser.click(clearButtonXpath);
-		browser.click(submitButtonXpath);
-		browser.waitForElement(errorXpath);
-		browser.assertElementExists(errorXpath);
+		browser.waitForElementTextPresent(modelValueXpath, text);
+		browser.assertElementTextPresent(modelValueXpath, text);
 	}
 }

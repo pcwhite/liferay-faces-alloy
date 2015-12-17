@@ -11,7 +11,7 @@
  * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
  * details.
  */
-package com.liferay.faces.test.showcase.inputsecret;
+package com.liferay.faces.test.showcase.inputhidden;
 
 import org.junit.Test;
 
@@ -24,38 +24,47 @@ import com.liferay.faces.test.showcase.Browser;
  * @author  Kyle Stiemann
  * @author  Philip White
  */
-public class InputSecretImmediateTester extends InputSecretTester {
+public class InputHiddenImmediateTester extends InputHiddenTester {
 
 	@Test
-	public void runInputSecretImmediateTest() throws Exception {
+	public void runInputHiddenImmediateTest() throws Exception {
 
 		Browser browser = Browser.getInstance();
-		browser.navigateToURL(inputSecretURL + "immediate");
+		browser.navigateToURL(inputHiddenURL + "immediate");
 
 		// Wait to begin the test until the submit button is rendered.
-		browser.waitForElement(submitButtonXpath);
+		browser.waitForElementVisible(submitButtonXpath);
 
-		// Test that the value submits successfully and the valueChangeListener method is called during the
+		// Test that the hidden value submits successfully and the valueChangeListener method is called during the
 		// APPLY_REQUEST_VALUES phase.
-		WebElement input = browser.getElement(inputXpath);
-		String text = "Hello World!";
-		input.sendKeys(text);
+		browser.click(hiddenButtonXpath);
 		browser.click(submitButtonXpath);
 
 		String immediateMessage = "//li[@class='text-info'][contains(text(),'APPLY_REQUEST_VALUES')]";
-		browser.waitForElement(immediateMessage);
-		browser.assertElementTextExists(modelValueXpath, text);
-		browser.assertElementExists(immediateMessage);
+		String hiddenValue = "(//input[contains(@value,'1234')])[1]";
+		browser.waitForElementVisible(immediateMessage);
+		browser.assertElementPresent(hiddenValue);
+		browser.assertElementPresent(immediateMessage);
+
+		browser.click(clearButtonXpath);
+		browser.click(submitButtonXpath);
+		browser.waitForElementPresent(hiddenValueEmptyXpath);
+		browser.assertElementPresent(hiddenValueEmptyXpath);
 
 		// Test that the value submits successfully and the valueChangeListener method is called during the
 		// PROCESS_VALIDATIONS phase.
-		input = browser.getElement(inputXpathRight);
-		input.sendKeys(text);
+		browser.click(hiddenButtonXpathRight);
 		browser.click(submitButtonXpathRight);
 
 		String immediateMessageRight = "//li[@class='text-info'][contains(text(),'PROCESS_VALIDATIONS')]";
-		browser.waitForElement(immediateMessageRight);
-		browser.assertElementTextExists(modelValueXpathRight, text);
-		browser.assertElementExists(immediateMessageRight);
+		String hiddenValueRight = "(//input[contains(@value,'1234')])[2]";
+		browser.waitForElementVisible(immediateMessageRight);
+		browser.assertElementPresent(hiddenValueRight);
+		browser.assertElementPresent(immediateMessageRight);
+
+		browser.click(clearButtonXpath);
+		browser.click(submitButtonXpath);
+		browser.waitForElementPresent(hiddenValueEmptyXpathRight);
+		browser.assertElementPresent(hiddenValueEmptyXpathRight);
 	}
 }

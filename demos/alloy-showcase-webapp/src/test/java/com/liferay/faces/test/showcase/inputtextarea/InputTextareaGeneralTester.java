@@ -11,7 +11,7 @@
  * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
  * details.
  */
-package com.liferay.faces.test.showcase.inputsecret;
+package com.liferay.faces.test.showcase.inputtextarea;
 
 import org.junit.Test;
 
@@ -24,38 +24,37 @@ import com.liferay.faces.test.showcase.Browser;
  * @author  Kyle Stiemann
  * @author  Philip White
  */
-public class InputSecretGeneralTester extends InputSecretTester {
+public class InputTextareaGeneralTester extends InputTextareaTester {
 
 	@Test
-	public void runInputSecretGeneralTest() throws Exception {
+	public void runInputTextareaGeneralTest() throws Exception {
 
 		Browser browser = Browser.getInstance();
-		browser.navigateToURL(inputSecretURL + "general");
+		browser.navigateToURL(inputTextURL + "general");
 
 		// Wait to begin the test until the submit button is rendered.
-		browser.waitForElement(submitButtonXpath);
+		browser.waitForElementVisible(submitButtonXpath);
 
 		// Test that an empty value submits successfully.
 		browser.click(submitButtonXpath);
 
 		String successXpath = "//div[@class='alloy-field form-group has-success']";
-		browser.waitForElement(successXpath);
-		browser.assertElementExists(successXpath);
+		browser.waitForElementVisible(successXpath);
+		browser.assertElementPresent(successXpath);
 
 		// Test that the web page shows an error message when a value is required and an empty value is submitted.
-		WebElement successElement = browser.getElement(successXpath);
 		String requiredCheckboxXpath = "//input[contains(@id,':requiredCheckbox')]";
 		browser.click(requiredCheckboxXpath);
-		browser.waitWhileElementExists(successElement);
+		browser.waitForElementNotPresent(successXpath);
 		browser.click(submitButtonXpath);
-		browser.waitForElement(errorXpath);
-		browser.assertElementExists(errorXpath);
+		browser.waitForElementVisible(errorXpath);
+		browser.assertElementPresent(errorXpath);
 
 		// Test that a text value submits successfully.
 		String text = "Hello World!";
 		browser.sendKeys(inputXpath, text);
 		browser.click(submitButtonXpath);
-		browser.waitForElementText(modelValueXpath, text);
-		browser.assertElementTextExists(modelValueXpath, text);
+		browser.waitForElementTextPresent(modelValueXpath, text);
+		browser.assertElementTextPresent(modelValueXpath, text);
 	}
 }

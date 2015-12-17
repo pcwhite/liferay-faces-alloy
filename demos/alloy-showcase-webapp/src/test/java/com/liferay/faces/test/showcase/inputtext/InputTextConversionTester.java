@@ -11,7 +11,7 @@
  * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
  * details.
  */
-package com.liferay.faces.test.showcase.inputtextarea;
+package com.liferay.faces.test.showcase.inputtext;
 
 import org.junit.Test;
 
@@ -24,16 +24,16 @@ import com.liferay.faces.test.showcase.Browser;
  * @author  Kyle Stiemann
  * @author  Philip White
  */
-public class InputTextareaConversionTester extends InputTextareaTester {
+public class InputTextConversionTester extends InputTextTester {
 
 	@Test
-	public void runInputTextareaConversionTest() throws Exception {
+	public void runInputTextConversionTest() throws Exception {
 
 		Browser browser = Browser.getInstance();
 		browser.navigateToURL(inputTextURL + "conversion");
 
 		// Wait to begin the test until the submit button is rendered.
-		browser.waitForElement(submitButtonXpath);
+		browser.waitForElementVisible(submitButtonXpath);
 
 		// Test that the web page shows an error message when an invalid value is submitted.
 		WebElement input = browser.getElement(inputXpath);
@@ -42,8 +42,8 @@ public class InputTextareaConversionTester extends InputTextareaTester {
 		String invalidText = "apr 3 33";
 		input.sendKeys(invalidText);
 		browser.click(submitButtonXpath);
-		browser.waitForElement(errorXpath);
-		browser.assertElementExists(errorXpath);
+		browser.waitForElementVisible(errorXpath);
+		browser.assertElementPresent(errorXpath);
 
 		// Test that a valid value submits successfully.
 		input = browser.getElement(inputXpath);
@@ -54,8 +54,8 @@ public class InputTextareaConversionTester extends InputTextareaTester {
 		browser.click(submitButtonXpath);
 
 		String textOutput = "Apr 3, 0033";
-		browser.waitForElementText(modelValueXpath, textOutput);
-		browser.assertElementTextExists(modelValueXpath, textOutput);
+		browser.waitForElementTextPresent(modelValueXpath, textOutput);
+		browser.assertElementTextPresent(modelValueXpath, textOutput);
 
 		// Test that the web page shows an error message when an invalid value is submitted.
 		input = browser.getElement(inputXpathRight);
@@ -63,8 +63,8 @@ public class InputTextareaConversionTester extends InputTextareaTester {
 		invalidText = "4/333";
 		input.sendKeys(invalidText);
 		browser.click(submitButtonXpathRight);
-		browser.waitForElement(errorXpath);
-		browser.assertElementExists(errorXpath);
+		browser.waitForElementVisible(errorXpath);
+		browser.assertElementPresent(errorXpath);
 
 		// Test that a valid value submits successfully.
 		input = browser.getElement(inputXpathRight);
@@ -73,7 +73,7 @@ public class InputTextareaConversionTester extends InputTextareaTester {
 		input.sendKeys(text);
 		browser.click(submitButtonXpathRight);
 		textOutput = "04/03/0033";
-		browser.waitForElementText(modelValueXpathRight, textOutput);
-		browser.assertElementTextExists(modelValueXpathRight, textOutput);
+		browser.waitForElementTextPresent(modelValueXpathRight, textOutput);
+		browser.assertElementTextPresent(modelValueXpathRight, textOutput);
 	}
 }
